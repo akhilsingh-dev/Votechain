@@ -11,15 +11,19 @@ from sqlite3 import Error
 import os
 import Utility as util
 
-
+def create_connection():
+    """ create a database connection to a SQLite database """
+    try:
+        conn = sqlite3.connect("pythonsqlite.db")
+    except Error as e:
+        print(e)
+        return
+    finally:
+        return conn
 
 def getpublicKey(name,dob):
-	try:
-		conn = sqlite3.connect("pythonsqlite.db")
-	except Error as e:
-		print(e)
-	finally:
-		c=conn.cursor()
+	conn=create_connection()
+	c=conn.cursor()
 
 	a,b,d=dob.split('-')
 	dob=dt.date(int(a),int(b),int(d))
@@ -37,16 +41,9 @@ def getpublicKey(name,dob):
 		return None
 
 
-
-
 def verify(name,dob,v_id):
-	try:
-		conn = sqlite3.connect("pythonsqlite.db")
-	except Error as e:
-		print(e)
-	finally:
-		c=conn.cursor()
-
+	conn=create_connection()
+	c=conn.cursor()
 
 	a,b,d=dob.split('-')
 	dob=dt.date(int(a),int(b),int(d))
@@ -67,12 +64,9 @@ def verify(name,dob,v_id):
 		
 
 def deleteData(name,dob,v_id):
-	try:
-		conn = sqlite3.connect("pythonsqlite.db")
-	except Error as e:
-		print(e)
-	finally:
-		c=conn.cursor()
+	conn=create_connection()
+	c=conn.cursor()
+
 	a,b,d=dob.split('-')
 	dob=dt.date(int(a),int(b),int(d))
 		
