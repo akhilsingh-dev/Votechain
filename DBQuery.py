@@ -87,8 +87,9 @@ if __name__ == '__main__':
 	#sk = ecdsa.SigningKey.from_string(privateKey,curve = ecdsa.SECP256k1) 
 	publicKey = getpublicKey("Polly Robertson","2018-11-12")
 	#pk = ecdsa.VerifyingKey.from_string(publicKey,curve = ecdsa.SECP256k1) 
-	
-	#inputdata="Rajiv chutiya hai"
+	data = "Hello World"
+	sign = util.applySignature(privateKey,data)
+	print(util.verifySignature(publicKey,data,sign))
 	#sign=sk.sign((str(inputdata)).encode())
 	#print(pk.verify(sign,(str(inputdata)).encode()))
 
