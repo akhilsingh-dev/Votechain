@@ -4,7 +4,6 @@
 #
 
 import Utility as util
-import codecs
 
 
 class Voter():
@@ -16,10 +15,16 @@ class Voter():
 	def castVote(self,party):
 		if self.getBalance() != 1:												#if the voter doesnt have a vote to give
 			print("Sorry! You don't have vote to cast!")
-		pass
+			raise Exception("NoBalance")
+			return None
+		else:
+			pass
+
+
+
 
 	def __repr__(self):
-		return ( "Voter ID: " + str(self.voterID) + self.sk)
+		return ( "Voter ID: " + str(self.voterID))
 
 	def getBalance(self):
 		pass
