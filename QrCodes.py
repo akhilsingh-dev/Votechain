@@ -23,7 +23,7 @@ time.sleep(2.0)
  
 # open the output CSV file for writing and initialize the set of
 # barcodes found thus far
-csv = open(args["output"], "w")
+csv = open(args["output"], "a+")
 found = set()
 
 
