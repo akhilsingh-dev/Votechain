@@ -15,9 +15,6 @@ class Transaction:
 		self.signature = None
 
 
-	def calcID(self):
-		return util.applySHA256(str(self.sender)+str(self.recept))
-
 	def __repr__(self):
 		if self.is_proc == True:
 			return (str(self.sender) + " gave " + str(self.recept) + " a vote!")
