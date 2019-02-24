@@ -11,7 +11,7 @@ class Transaction:
 		self.value = 1
 		self.sender = giver						#objects of one of classes in Accounts.py
 		self.recept = taker						#objects of one of classes in Accounts.py
-		self.is_proc = True
+		self.is_proc = False
 		self.signature = None
 
 
@@ -22,13 +22,17 @@ class Transaction:
 			return ("Transaction under process or not defined!")
 
 	def signTransaction(self):
-		data = self.sender + self.recept
+		data = self.sender.pk + self.recept.pk
 		self.signature = util.applySignature(self.sender.sk,data)
 		if self.signature == None:										#signing failed
 			return False
 		else:															#signed successfully
+			print("The Transaction was signed successfully!")
 			return True
 
+	def processTransaction(self):
+		publicKey = getpublicKey(self.sender.name,self.sender.dob)
+		if util.verifySignature(publicKey, , self.signature):
 
 
 if __name__ == "__main__":
@@ -36,3 +40,4 @@ if __name__ == "__main__":
 	v2 = ac.Voter(103)
 	tr1 = Transaction(v1,v2)
 	print(tr1) 
+	print(tr1.is_proc)

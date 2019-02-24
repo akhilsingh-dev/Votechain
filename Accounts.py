@@ -5,11 +5,14 @@
 
 import Utility as util
 
+#class Party:
 
-class Voter():
-	def __init__(self,vid):
+class Voter:
+	def __init__(self,vid,title,dat):
 		self.sk,self.pk = util.generateKeyPair()								#Generates a key pair for every voter
 		self.voterID = vid  													#voterID links to database
+		self.name = title
+		self.dob = dat
 
 
 	def castVote(self,party):
@@ -18,13 +21,14 @@ class Voter():
 			raise Exception("NoBalance")
 			return None
 		else:
+
 			pass
 
 
 
 
 	def __repr__(self):
-		return ( "Voter ID: " + str(self.voterID))
+		return ( "Name: " + self.name + "\nVoter ID: " + str(self.voterID))
 
 	def getBalance(self):
 		pass
@@ -34,13 +38,11 @@ class Voter():
 
 
 
+if __name__=="__main__":
+	v1 = Voter(6969,"Akhil Singh","12-12-2012")
+	print(v1)
 
-if __name__ == "__main__":
-	v1 = Voter(696969)
-	sign = util.applySignature(v1.sk,"BJP")
-	try:
-		print(util.verifySignature(v1.pk,"INC",sign))
-	except Exception as e:	
-		print(False)
-	print(v1.sendSk())
-	
+
+
+
+

@@ -5,9 +5,11 @@ import sqlite3
 import time
 import names
 from sqlite3 import Error
-import Utility as util
+
 
 admin = "admin" 
+
+
 
 def new_entry(c,conn):
     #name=input("Enter name ")

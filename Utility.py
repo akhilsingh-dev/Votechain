@@ -23,8 +23,16 @@ def applySignature(sk,inputdata):										#Generates Signature of inputdata wit
 	return sig
 
 
-def verifySignature(pk,data,sig):
-	return pk.verify(sig,(str(data)).encode())
+def verifySignature(privateKey,publicKey,data,sig):
+	sk = ecdsa.SigningKey.from_string(privateKey,curve = ecdsa.SECP256k1)
+	pk = ecdsa.VerifyingKey.from_string(publicKey,curve = ecdsa.SECP256k1)
+	sig=applySignature(sk,data)
+	try:
+		pk.verify(sig,(str(data)).encode())
+		return True
+	except:
+		return False
+
 
 
 
