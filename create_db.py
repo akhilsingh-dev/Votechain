@@ -8,7 +8,7 @@ from sqlite3 import Error
 import Utility as util
 
 admin = "admin" 
-    
+
 def new_entry(c,conn):
     #name=input("Enter name ")
     #v_id=input("Enter voter-id ")
@@ -43,7 +43,7 @@ def create_connection():
     """ create a database connection to a SQLite database """
     try:
         conn = sqlite3.connect("pythonsqlite.db")
-        print(sqlite3.version)
+        #print(sqlite3.version)
     except Error as e:
         print(e)
         return

@@ -34,8 +34,8 @@ if __name__ == "__main__":
 	v1 = Voter(696969)
 	sign = util.applySignature(v1.sk,"BJP")
 	try:
-		print(util.verifySignature(v1.pk,"BJP",sign))
-	except:	
+		print(util.verifySignature(v1.pk,"INC",sign))
+	except Exception as e:	
 		print(False)
 	print(v1.sendSk())
 	
