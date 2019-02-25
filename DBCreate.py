@@ -17,7 +17,7 @@ def new_entry(c,conn):
     for _ in range(101,121):                       #creation of 20 records 
         l=[]
         [sk,pk] = util.generateKeyPair()
-        salt = uuid.uuid4().hex                    #salt to be hased with v_id
+        salt = uuid.uuid4().hex                    #salt to be hashed with v_id
         v_id=_
         l.append(str(v_id))
         name=names.get_full_name()

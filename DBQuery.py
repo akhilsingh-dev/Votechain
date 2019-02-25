@@ -2,7 +2,6 @@
 # Houses connections to database to query a voter's details from database
 
 
-
 import hashlib
 import uuid
 import datetime as dt
@@ -10,6 +9,8 @@ import sqlite3
 from sqlite3 import Error
 import os
 import Utility as util
+
+
 
 def create_connection():
     """ create a database connection to a SQLite database """
@@ -24,7 +25,7 @@ def create_connection():
 def getpublicKey(name,dob):
 	conn=create_connection()
 	c=conn.cursor()
-
+	print(dob)
 	a,b,d=dob.split('-')
 	dob=dt.date(int(a),int(b),int(d))
 	try:

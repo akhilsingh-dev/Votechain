@@ -4,8 +4,19 @@
 #
 
 import Utility as util
+import Transaction as trans
 
-#class Party:
+class Party:
+	def __init__(self,pid,title):
+		self.sk,self.pk = util.generateKeyPair()
+		self.partyID = pid
+		self.name = title
+
+	def __repr__(self):
+		return ("Party Name: " + str(self.name) + "\nParty ID: " + str(self.partyID))
+
+
+
 
 class Voter:
 	def __init__(self,vid,title,dat):
@@ -21,17 +32,22 @@ class Voter:
 			raise Exception("NoBalance")
 			return None
 		else:
-
-			pass
-
-
+			t1 = trans.Transaction(self,party)
+			t1.signTransaction()
+			is_proc = t1.processTransaction()
+			if is_proc:
+				print("Your vote has been casted successfully!")
+				return t1
+			else:
+				print("Sorry! Your vote could not be processed!")
+				return None
 
 
 	def __repr__(self):
 		return ( "Name: " + self.name + "\nVoter ID: " + str(self.voterID))
 
 	def getBalance(self):
-		pass
+		return 1
 
 	def sendSk(self):
 		return (self.sk.to_string())
@@ -40,6 +56,8 @@ class Voter:
 
 if __name__=="__main__":
 	v1 = Voter(6969,"Akhil Singh","12-12-2012")
+	p1 = Party(101,"BJP")
+	v1.castVote(p1)
 	print(v1)
 
 

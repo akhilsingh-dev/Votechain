@@ -5,6 +5,8 @@
 
 import Utility as util
 import Accounts as ac
+import DBQuery as dbq
+
 
 class Transaction:
 	def __init__(self,giver,taker):
@@ -22,22 +24,33 @@ class Transaction:
 			return ("Transaction under process or not defined!")
 
 	def signTransaction(self):
-		data = self.sender.pk + self.recept.pk
-		self.signature = util.applySignature(self.sender.sk,data)
-		if self.signature == None:										#signing failed
+		data = self.sender.pk.to_string() + self.recept.pk.to_string()
+		self.signature = util.applySignature(self.sender.sk.to_string(),data)
+		if self.signature == None:											#signing failed
 			return False
-		else:															#signed successfully
+		else:																#signed successfully
 			print("The Transaction was signed successfully!")
 			return True
 
 	def processTransaction(self):
-		publicKey = getpublicKey(self.sender.name,self.sender.dob)
-		if util.verifySignature(publicKey, , self.signature):
+		data = self.sender.pk.to_string() + self.recept.pk.to_string()
+		publicKey = self.sender.pk.to_string()								#dbq.getpublicKey(self.sender.name,self.sender.dob)
+		
+		if util.verifySignature(publicKey, data, self.signature):
+			print("Tranasaction Signature Validated!")
+			self.is_proc = True
+		else:
+			print("Transaction Signature Not Valid!")
+			self.is_proc = False
+
+		return self.is_proc
 
 
 if __name__ == "__main__":
-	v1 = ac.Voter(102)
-	v2 = ac.Voter(103)
-	tr1 = Transaction(v1,v2)
+	v1 = ac.Voter(102,"Polly Robertson","2018-11-12")
+	p1 = ac.Party(103,"BJP")
+	tr1 = Transaction(v1,p1)
+	tr1.signTransaction()	
+	tr1.processTransaction()
 	print(tr1) 
 	print(tr1.is_proc)
