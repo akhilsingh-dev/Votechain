@@ -34,7 +34,7 @@ class Transaction:
 
 	def processTransaction(self):
 		data = self.sender.pk.to_string() + self.recept.pk.to_string()
-		publicKey = self.sender.pk.to_string()								#dbq.getpublicKey(self.sender.name,self.sender.dob)
+		publicKey = dbq.getpublicKey(self.sender.name,self.sender.dob)
 		
 		if util.verifySignature(publicKey, data, self.signature):
 			print("Tranasaction Signature Validated!")

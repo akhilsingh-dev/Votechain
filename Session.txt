@@ -1,0 +1,31 @@
+# Session.py
+# Run an instance of a voting season
+
+
+#DBcreate.new_entry()			#Create voter database and accounts
+#initialize validTime interval
+#rpr = Reaper()					#Create the Reaper
+#for i in voterList:
+#	rpr.donate(i)				#session voting access given to voters
+#while(#there is a voter present):
+		#Code for Verification
+		#voting Code
+		#transaction validated	
+		#Destroy the account and the database
+
+		#get 4 such transactions ready
+		#Add 4 transactions to block
+		#mine and validate the block
+		#Add block to blockchain
+		#blockchain verification
+
+#Once the voting time interval is finished, call the reaper...
+#for i in voterList:
+#	rpr.snatch(i)				#session voting access snatched from voters
+
+
+
+#Once every voter is removed from the session,
+#Traverse the Blockchain counting the votes and recalculating the hash for every block again.
+#If data gets corrupted during traversal, The current hash of the block changes causing delinking of the chain 
+ 
