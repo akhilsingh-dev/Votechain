@@ -25,7 +25,6 @@ def create_connection():
 def getpublicKey(name,dob):
 	conn=create_connection()
 	c=conn.cursor()
-	print(dob)
 	a,b,d=dob.split('-')
 	dob=dt.date(int(a),int(b),int(d))
 	try:
@@ -42,7 +41,7 @@ def getpublicKey(name,dob):
 		return None
 
 
-def verify(name,dob,v_id):
+def verify(name,dob,v_id):         #The case of multiple same names and DOBs also handled via v_id now
 	conn=create_connection()
 	c=conn.cursor()
 
@@ -50,11 +49,21 @@ def verify(name,dob,v_id):
 	dob=dt.date(int(a),int(b),int(d))
 	try:
 		c.execute('SELECT * FROM verify WHERE name=? AND dob=?',(name,dob,))
-		row=c.fetchone()
-		password,salt=row[0].split(':')
-		conn.commit()
-		conn.close()
-		return (password==hashlib.sha256(salt.encode() + str(v_id).encode()).hexdigest())
+		row=c.fetchall()
+		for i in row:
+
+			password,salt=i[0].split(':')
+			flag=(password==hashlib.sha256(salt.encode() + str(v_id).encode()).hexdigest())
+			if(flag==True):
+				conn.commit()
+				conn.close()
+				return flag
+			else:
+				continue
+		if(flag==False):
+			conn.commit()
+			conn.close()
+			return False
 
 	except (RuntimeError,NameError,TypeError):
 		conn.commit()
@@ -86,9 +95,5 @@ def deleteData(name,dob,v_id):
 
 if __name__ == '__main__':
 
-	privateKey = b"\xad\xd1\xdb\xe86\x07\xc4\x1b\x18\x9b\xaa\x98\x85v|U\xf8\xfa\xad \x11\xeb\x8a\x1f\x1d/\x13\xf5\xe86\xb1\xed"
-	publicKey = getpublicKey("Polly Robertson","2018-11-12")
-	data = "Hello World"
-	sign = util.applySignature(privateKey,data)
-	print(util.verifySignature(publicKey,"Hello World",sign))
-
+	#print(verify("Shannon Reyes","2018-11-15","101"))
+	

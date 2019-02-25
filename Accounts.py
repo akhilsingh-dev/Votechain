@@ -5,6 +5,8 @@
 
 import Utility as util
 import Transaction as trans
+import DBCreate as dbc
+import DBQuery as dbq
 
 class Party:
 	def __init__(self,pid,title):
@@ -31,13 +33,31 @@ class Reaper:
 
 
 class Voter:
-	def __init__(self,vid,title,dat):
-		self.sk,self.pk = util.generateKeyPair()								#Generates a key pair for every voter
-		self.voterID = vid  													#voterID links to database
+	def __init__(self,title,dat,pk):
+		self.sk=None                             #initially set to None and only assigned after QR Code scanning
+		self.pk = pk								
+		self.voterID = 0                         #asked from voter along with name, dob and assigned only after verifying from DB 
 		self.name = title
 		self.dob = dat
 		self.balance = True
 
+	def verifyaccount(self,name,dob):           #verifying voter from voterlist
+		flag1=(self.name==name)
+		flag2=(self.dob==dob)
+		return (flag1 and flag2)
+
+	def verifyDB(self):                               #verifying from database and assigning value of self.voterID post verification
+		vid=int(input("Enter your voter-id "))
+		if(dbq.verify(self.name,self.dob,vid)):
+			self.voterID=vid
+		else:
+			print("Record not found in DB!")
+	
+	def sk_QRCode(self):
+		#Assigning value of self.sk from QR Code
+		#NOTE: value should be a string of the key itself as all further signing and verifying funtions uses from_string() function 
+
+	
 	def castVote(self,party):
 		if self.balance != True:												#if the voter doesnt have a vote to give
 			print("Sorry! You don't have vote to cast!")
@@ -66,10 +86,28 @@ class Voter:
 
 
 if __name__=="__main__":
-	v1 = Voter(6969,"Akhil Singh","12-12-2012")
+
+	vt=dbc.create_Accounts()           #creation of accounts of all voters from DB
+	n=input("Enter your full name ")
+	d=input("Enter your DoB in yyyy-mm-dd format ")
+	present=0
+	for i in vt:
+		if(i.verifyaccount(n,d)):
+			present=1
+			break
+		else:
+			continue                #continues till voter not found in VoterList
+	if(present==1):
+		#code for further transaction of voter if it exists, until destructor of object called
+		print("ulala lala le o ula la lalala le o")
+	else:
+		print("Voter not found in Accounts")
+
+
+	''''v1 = Voter(6969,"Akhil Singh","12-12-2012")
 	p1 = Party(101,"BJP")
 	v1.castVote(p1)
-	print(v1)
+	print(v1)'''
 
 
 

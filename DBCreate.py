@@ -5,10 +5,20 @@ import sqlite3
 import time
 import names
 from sqlite3 import Error
+import Accounts as acc
 
 
 admin = "admin" 
 
+def create_Accounts():              #creation of list of objects of all account in DB
+    conn=create_connection()       #NOTE:voter-id not assigned from DB as it is hashed in DB and will be added in verifyDB() function in Accounts.py
+    c=conn.cursor()
+    VoterList=[]
+    for i in range(1,21):
+        c.execute('SELECT * FROM verify WHERE rowid=?',(i,))
+        row=c.fetchone()
+        VoterList.append(acc.Voter(row[1],str(row[2]),row[3]))
+    return VoterList
 
 
 def new_entry(c,conn):
@@ -58,5 +68,6 @@ if __name__ == '__main__':
         print("Wrong passcode")
     conn.close()
     time.sleep(5)
+
 
     
