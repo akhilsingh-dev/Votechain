@@ -62,7 +62,7 @@ class Voter:
 			print("Record not found in DB!")
 	
 	def sk_QRCode(self):
-		#Assigning value of self.sk from QR Code
+		#Parsing value of self.sk(secret key) from QR Code
 		#NOTE: value should be a string of the key itself as all further signing and verifying funtions uses from_string() function 
 		pass
 	
