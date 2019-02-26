@@ -41,10 +41,18 @@ class Voter:
 		self.dob = dat
 		self.balance = True
 
-	def verifyaccount(self,name,dob):           #verifying voter from voterlist
-		flag1=(self.name==name)
-		flag2=(self.dob==dob)
-		return (flag1 and flag2)
+	def verifyaccount(self,vt,name,dob):           #verifying voter from voterlist
+		present=0
+		for i in vt:
+			flag1=(i.name==name)
+			flag2=(i.dob==dob)
+			if((flag1 and flag2)==True):
+				present=1
+				return [(flag1 and flag2),i]
+			else:
+				continue                          #continues till voter not found in VoterList
+		if(present==0):
+			return [False,None]
 
 	def verifyDB(self):                               #verifying from database and assigning value of self.voterID post verification
 		vid=int(input("Enter your voter-id "))
@@ -90,18 +98,17 @@ if __name__=="__main__":
 	vt=dbc.create_Accounts()           #creation of accounts of all voters from DB
 	n=input("Enter your full name ")
 	d=input("Enter your DoB in yyyy-mm-dd format ")
-	present=0
-	for i in vt:
-		if(i.verifyaccount(n,d)):
-			present=1
-			break
-		else:
-			continue                #continues till voter not found in VoterList
-	if(present==1):
+	[boolean,obj]=Voter.verifyaccount(None,vt,n,d)
+	if(boolean==True):
 		#code for further transaction of voter if it exists, until destructor of object called
+		obj.verifyDB()
 		print("ulala lala le o ula la lalala le o")
+	
+		
 	else:
 		print("Voter not found in Accounts")
+		              
+	
 
 
 	''''v1 = Voter(6969,"Akhil Singh","12-12-2012")
