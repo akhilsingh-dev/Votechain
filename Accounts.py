@@ -64,7 +64,7 @@ class Voter:
 	def sk_QRCode(self):
 		#Assigning value of self.sk from QR Code
 		#NOTE: value should be a string of the key itself as all further signing and verifying funtions uses from_string() function 
-
+		pass
 	
 	def castVote(self,party):
 		if self.balance != True:												#if the voter doesnt have a vote to give
@@ -87,9 +87,6 @@ class Voter:
 	def __repr__(self):
 		return ( "Name: " + self.name + "\nVoter ID: " + str(self.voterID))
 
-
-	def sendSk(self):
-		return (self.sk.to_string())
 
 
 

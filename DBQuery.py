@@ -93,7 +93,6 @@ def deleteData(name,dob,v_id):
 
 ##TESTING...
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
 
 	#print(verify("Shannon Reyes","2018-11-15","101"))
-	
