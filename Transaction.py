@@ -6,13 +6,17 @@
 import Utility as util
 import Accounts as ac
 import DBQuery as dbq
-
+import TransactionOutput as TxOut
 
 class Transaction:
-	def __init__(self,giver,taker):
+
+	txcount = 0
+
+	def __init__(self,giver,taker,output):		#output is of type TxOutputs
 		self.value = 1
 		self.sender = giver						#objects of one of classes in Accounts.py
 		self.recept = taker						#objects of one of classes in Accounts.py
+		self.txid = self.calcID()
 		self.is_proc = False
 		self.signature = None
 
@@ -22,6 +26,11 @@ class Transaction:
 			return (str(self.sender) + " gave " + str(self.recept) + " a vote!")
 		else:
 			return ("Transaction under process or not defined!")
+
+
+	def calcID(self):									#Hashed transactionID (txid) to be given to TOuput
+		Transaction.txcount += 1
+		return util.applySHA256(self.sender.pk.to_string() + self.recept.to_string()+str(Transaction.txcount))
 
 	def signTransaction(self):
 		data = self.sender.pk.to_string() + self.recept.pk.to_string()
@@ -35,9 +44,9 @@ class Transaction:
 	def processTransaction(self):
 		data = self.sender.pk.to_string() + self.recept.pk.to_string()
 		publicKey = dbq.getpublicKey(self.sender.name,self.sender.dob)
-		
 		if util.verifySignature(publicKey, data, self.signature):
 			print("Tranasaction Signature Validated!")
+			txoutput = TxOut.TxOutput(self.recept.pk.to_string(),self.txid)
 			self.is_proc = True
 		else:
 			print("Transaction Signature Not Valid!")
@@ -52,5 +61,5 @@ if __name__ == "__main__":
 	tr1 = Transaction(v1,p1)
 	tr1.signTransaction()	
 	tr1.processTransaction()
-	print(tr1) 
+	print(tr1.txid) 
 	print(tr1.is_proc)
