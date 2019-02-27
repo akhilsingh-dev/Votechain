@@ -12,7 +12,7 @@ class Transaction:
 
 	txcount = 0
 
-	def __init__(self,giver,taker,output):		#output is of type TxOutputs
+	def __init__(self,giver,taker):		#output is of type TxOutputs
 		self.value = 1
 		self.sender = giver						#objects of one of classes in Accounts.py
 		self.recept = taker						#objects of one of classes in Accounts.py
@@ -30,10 +30,11 @@ class Transaction:
 
 	def calcID(self):									#Hashed transactionID (txid) to be given to TOuput
 		Transaction.txcount += 1
-		return util.applySHA256(self.sender.pk.to_string() + self.recept.to_string()+str(Transaction.txcount))
+		#print(str(type(self.sender.pk +"\n\n" + str(type(self.recept.pk)))
+		return util.applySHA256(str(self.sender.pk.to_string()) + str(self.recept.pk.to_string()) +str(Transaction.txcount))
 
 	def signTransaction(self):
-		data = self.sender.pk.to_string() + self.recept.pk.to_string()
+		data = str(self.sender.pk.to_string()) + str(self.recept.pk.to_string())
 		self.signature = util.applySignature(self.sender.sk.to_string(),data)
 		if self.signature == None:											#signing failed
 			return False
@@ -43,10 +44,11 @@ class Transaction:
 
 	def processTransaction(self):
 		data = self.sender.pk.to_string() + self.recept.pk.to_string()
+		print("DOB = " + self.sender.dob)
 		publicKey = dbq.getpublicKey(self.sender.name,self.sender.dob)
 		if util.verifySignature(publicKey, data, self.signature):
 			print("Tranasaction Signature Validated!")
-			txoutput = TxOut.TxOutput(self.recept.pk.to_string(),self.txid)
+			self.txoutput = TxOut.TxOutput(self.recept.pk.to_string(),self.txid)
 			self.is_proc = True
 		else:
 			print("Transaction Signature Not Valid!")
@@ -56,10 +58,15 @@ class Transaction:
 
 
 if __name__ == "__main__":
-	v1 = ac.Voter(102,"Polly Robertson","2018-11-12")
+
+	v1 = ac.Voter("Polly Robertson","2018-11-12",dbq.getpublicKey("Polly Robertson","2018-11-12"))
 	p1 = ac.Party(103,"BJP")
+	
+
 	tr1 = Transaction(v1,p1)
 	tr1.signTransaction()	
 	tr1.processTransaction()
+
+
 	print(tr1.txid) 
 	print(tr1.is_proc)

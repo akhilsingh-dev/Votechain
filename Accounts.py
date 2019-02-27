@@ -34,8 +34,10 @@ class Reaper:
 
 class Voter:
 	def __init__(self,title,dat,pk):
-		self.sk=None                             #initially set to None and only assigned after QR Code scanning
-		self.pk = pk								
+		self.sk,self.pk = util.generateKeyPair()
+		
+		#self.sk=None                             #initially set to None and only assigned after QR Code scanning
+		#self.pk = pk								
 		self.voterID = 0                         #asked from voter along with name, dob and assigned only after verifying from DB 
 		self.name = title
 		self.dob = dat
