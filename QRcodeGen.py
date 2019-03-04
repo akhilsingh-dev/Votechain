@@ -10,10 +10,10 @@ import pyqrcode
 def qr_gen(file_name="temp", data="abc"):                                       #data is the private key to generate QR
     
     #Creating the QRCode object with proper specifications 
-    big_code = pyqrcode.create(f"{data}", error='L', version=27, mode=None)
+    big_code = pyqrcode.create(data, error='L', version=2, mode=None)
 
     #Converting it into png with provided filename and scale
-    big_code.png(f"{file_name}.png" , scale = 4)
+    big_code.png(f"{file_name}.png" , scale = 7)
 
 
 #Function Calling Example
