@@ -12,21 +12,11 @@ import cv2
  
 # construct the argument parser and parse the arguments
 def qr_scan():
-	ap = argparse.ArgumentParser()
-	ap.add_argument("-o", "--output", type=str, default="barcodes.csv",
-		help="path to output CSV file containing barcodes")
-	args = vars(ap.parse_args())
-
+	
 	# initialize the video stream and allow the camera sensor to warm up
 	print("[INFO] starting video stream...")
 	vs = VideoStream(src=0).start()
 	time.sleep(2.0)
-	 
-	# open the output CSV file for writing and initialize the set of
-	# barcodes found thus far
-	csv = open(args["output"], "a+")
-	found = set()
-
 
 	while True:
 		# grab the frame from the threaded video stream and resize it to
@@ -55,15 +45,7 @@ def qr_scan():
 			cv2.putText(frame, text, (x, y - 10),
 				cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 	 
-			# if the barcode text is currently not in our CSV file, write
-			# the timestamp + barcode to disk and update the set
 			
-			#if barcodeData not in found:
-			#	csv.write("{},{}\n".format(datetime.datetime.now(),
-			#		barcodeData))
-			#	csv.flush()
-			#	found.add(barcodeData)
-
 		# show the output frame
 		cv2.imshow("Barcode Scanner", frame)
 		key = cv2.waitKey(1) & 0xFF
@@ -74,11 +56,10 @@ def qr_scan():
 	 
 	# close the output CSV file do a bit of cleanup
 	print("[INFO] cleaning up...")
-	csv.close()
 	cv2.destroyAllWindows()
 	vs.stop()
 	return barcodeData								#This is the bytes object stroing the secretKey
 
 if __name__ == "__main__":
 	print(qr_scan())
-
+	print(type(qr_scan()))

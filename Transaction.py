@@ -27,14 +27,18 @@ class Transaction:
 		else:
 			return ("Transaction under process or not defined!")
 
+	def __str__(self):
+		return (str(self.sender)+str(self.recept))
+
+
 
 	def calcID(self):									#Hashed transactionID (txid) to be given to TOuput
 		Transaction.txcount += 1
 		#print(str(type(self.sender.pk +"\n\n" + str(type(self.recept.pk)))
-		return util.applySHA256(str(self.sender.pk.to_string()) + str(self.recept.pk.to_string()) +str(Transaction.txcount))
+		return util.applySHA256(str(self.sender.pk) + str(self.recept.pk.to_string()) +str(Transaction.txcount))
 
 	def signTransaction(self):
-		data = str(self.sender.pk.to_string()) + str(self.recept.pk.to_string())
+		data = self.sender.pk + self.recept.pk.to_string()
 		self.signature = util.applySignature(self.sender.sk.to_string(),data)
 		if self.signature == None:											#signing failed
 			return False
@@ -43,12 +47,12 @@ class Transaction:
 			return True
 
 	def processTransaction(self):
-		data = self.sender.pk.to_string() + self.recept.pk.to_string()
-		print("DOB = " + self.sender.dob)
+		data = self.sender.pk + self.recept.pk.to_string()
 		publicKey = dbq.getpublicKey(self.sender.name,self.sender.dob)
+		
 		if util.verifySignature(publicKey, data, self.signature):
 			print("Tranasaction Signature Validated!")
-			self.txoutput = TxOut.TxOutput(self.recept.pk.to_string(),self.txid)
+			self.txoutput = TxOut.TxOutput(self.recept,self.txid)
 			self.is_proc = True
 		else:
 			print("Transaction Signature Not Valid!")

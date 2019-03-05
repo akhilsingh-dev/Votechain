@@ -7,6 +7,10 @@ import Utility as util
 import Transaction as trans
 import DBCreate as dbc
 import DBQuery as dbq
+import QrCodes 
+import ecdsa
+
+
 
 class Party:
 	def __init__(self,pid,title):
@@ -16,6 +20,11 @@ class Party:
 
 	def __repr__(self):
 		return ("Party Name: " + str(self.name) + "\nParty ID: " + str(self.partyID))
+
+	def __str__(self):
+		return (str(self.name) + str(self.partyID))
+
+
 
 	def countVotes(self):
 		pass
@@ -31,13 +40,10 @@ class Reaper:
 
 
 
-
 class Voter:
 	def __init__(self,title,dat,pk):
-		self.sk,self.pk = util.generateKeyPair()
-		
-		#self.sk=None                             #initially set to None and only assigned after QR Code scanning
-		#self.pk = pk								
+		self.sk=None                             #initially set to None and only assigned after QR Code scanning
+		self.pk = pk								
 		self.voterID = 0                         #asked from voter along with name, dob and assigned only after verifying from DB 
 		self.name = title
 		self.dob = dat
@@ -60,13 +66,22 @@ class Voter:
 		vid=int(input("Enter your voter-id "))
 		if(dbq.verify(self.name,self.dob,vid)):
 			self.voterID=vid
+			return True
 		else:
 			print("Record not found in DB!")
-	
+			return False
+
+
 	def sk_QRCode(self):
 		#Parsing value of self.sk(secret key) from QR Code
 		#NOTE: value should be a string of the key itself as all further signing and verifying funtions uses from_string() function 
-		pass
+		
+		#signKey = QrCodes.qr_scan().encode('utf-8')
+		signKey = b'\xad\xd1\xdb\xe86\x07\xc4\x1b\x18\x9b\xaa\x98\x85v|U\xf8\xfa\xad \x11\xeb\x8a\x1f\x1d/\x13\xf5\xe86\xb1\xed'
+		
+		self.sk = ecdsa.SigningKey.from_string(signKey, curve = ecdsa.SECP256k1)
+		
+
 	
 	def castVote(self,party):
 		if self.balance != True:												#if the voter doesnt have a vote to give
@@ -90,6 +105,9 @@ class Voter:
 		return ( "Name: " + self.name + "\nVoter ID: " + str(self.voterID))
 
 
+	def __str__(self):
+		return (str(self.voterID))
+
 
 
 if __name__=="__main__":
@@ -98,19 +116,23 @@ if __name__=="__main__":
 	n=input("Enter your full name ")
 	d=input("Enter your DoB in yyyy-mm-dd format ")
 	[boolean,obj]=Voter.verifyaccount(None,vt,n,d)
-	if(boolean==True):
+	if(boolean and obj.verifyDB() == True):
 		#code for further transaction of voter if it exists, until destructor of object called
-		obj.verifyDB()
-		print("ulala lala le o ula la lalala le o")
-	
-		
+		obj.sk_QRCode()
+		print("Beginning TX Procedure!")
+		bjp = Party(101,"BJP")
+		tx1 = obj.castVote(bjp)
+		if(tx1 != None):
+			print(tx1.txoutput)
+			#call destructor to the account object here
+
 	else:
 		print("Voter not found in Accounts")
 		              
 	
 
-
-	''''v1 = Voter(6969,"Akhil Singh","12-12-2012")
+'''
+	v1 = Voter(6969,"Akhil Singh","12-12-2012")
 	p1 = Party(101,"BJP")
 	v1.castVote(p1)
 	print(v1)'''
