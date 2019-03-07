@@ -34,6 +34,13 @@ class Blockchain:
 			prevblock = self.blockchain[i-1]
 			currblock = self.blockchain[i]
 			currblock.mineBlock(self.difficulty)						#remine a copy of the block
+			
+			for j in range(len(self.blockchain[i].tx)):
+				if self.blockchain[i].tx[j].txoutput.receptor != self.blockchain[i].tx[j].recept:
+					print("\n\n[ERROR] : Transaction output Mismatch!")
+					return False
+			
+
 			if currblock.hash != self.blockchain[i].hash:				#check for data changes
 				print("\n\n[ERROR] : Current Hash Mismatch!\n\n")
 				return False

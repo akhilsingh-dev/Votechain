@@ -21,7 +21,7 @@ class Transaction:
 		self.signature = None
 
 		#UNCOMMENT THIS LINE FOR TESTING Party.countVotes()...
-		#self.txoutput = TxOut.TxOutput(self.recept,self.txid)
+		self.txoutput = TxOut.TxOutput(self.recept,self.txid)
 
 
 	def __repr__(self):

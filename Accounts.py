@@ -137,10 +137,10 @@ if __name__=="__main__":
 
 	session1 = Bch.Blockchain(4)
 
-	v1 = Voter("Polly Robertson","2018-11-12",dbq.getpublicKey("Polly Robertson","2018-11-12"))
-	v2 = Voter("Shannon Reyes","2018-11-15",dbq.getpublicKey("Shannon Reyes","2018-11-15"))
-	v3 = Voter("Elizabeth Nunnenkamp","2018-11-14",dbq.getpublicKey("Elizabeth Nunnenkamp","2018-11-14"))
-	v4 = Voter("Jerry Hunter","2018-11-13",dbq.getpublicKey("Jerry Hunter","2018-11-13"))
+	v1 = Voter("Nicole Okeeffe","2018-11-26",dbq.getpublicKey("Nicole Okeeffe","2018-11-26"))
+	v2 = Voter("Kenneth Alvarado","2018-11-25",dbq.getpublicKey("Kenneth Alvarado","2018-11-25"))
+	v3 = Voter("Alex Scott","2018-11-24",dbq.getpublicKey("Alex Scott","2018-11-24"))
+	v4 = Voter("Isaac Carty","2018-11-23",dbq.getpublicKey("Isaac Carty","2018-11-23"))
 
 	bjp = Party(103,"BJP")
 	inc = Party(101,"INC")
@@ -165,7 +165,7 @@ if __name__=="__main__":
 	
 	#session1.blockchain[1].tx[1].txoutput.receptor = bjp 			#trying to tamper the data
 	
-	print("BJP GOT "+ str(bjp.countVotes(session1))+" VOTES!")
-	print("INC GOT "+ str(inc.countVotes(session1)) +" VOTES!")
+	print("\n\nBJP GOT "+ str(bjp.countVotes(session1))+" VOTES!\n\n")
+	print("\n\nINC GOT "+ str(inc.countVotes(session1)) +" VOTES!\n\n")
 
 
