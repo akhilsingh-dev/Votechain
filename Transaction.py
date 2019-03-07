@@ -21,7 +21,7 @@ class Transaction:
 		self.signature = None
 
 		#UNCOMMENT THIS LINE FOR TESTING Party.countVotes()...
-		self.txoutput = TxOut.TxOutput(self.recept,self.txid)
+		#self.txoutput = TxOut.TxOutput(self.recept,self.txid)
 
 
 	def __repr__(self):
@@ -42,7 +42,7 @@ class Transaction:
 
 	def signTransaction(self):
 		data = self.sender.pk + self.recept.pk.to_string()
-		self.signature = util.applySignature(self.sender.sk.to_string(),data)
+		self.signature = util.applySignature(self.sender.sk,data)
 		if self.signature == None:											#signing failed
 			return False
 		else:																#signed successfully

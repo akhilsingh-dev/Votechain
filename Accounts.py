@@ -50,6 +50,9 @@ class Reaper:
 	def donate(self,voter):
 		voter.balance = True
 
+	def snatch(self,voter):
+		voter.balance = False
+		pass
 
 
 
@@ -88,20 +91,8 @@ class Voter:
 	def sk_QRCode(self):
 		#Parsing value of self.sk(secret key) from QR Code
 		#NOTE: value should be a string of the key itself as all further signing and verifying funtions uses from_string() function 
-		#signKey is <bytes>
-		signKey = QrCodes.qr_scan()
-		#strSK is <string> 
-		strSK = signKey.decode().replace("\\",'\'')
-		signKey = strSK.encode()
-
-		print(type(signKey))
-		print(len(signKey))
-		
-		_signKey = b'\xad\xd1\xdb\xe86\x07\xc4\x1b\x18\x9b\xaa\x98\x85v|U\xf8\xfa\xad \x11\xeb\x8a\x1f\x1d/\x13\xf5\xe86\xb1\xed'
-		print(_signKey)
-		print(signKey)
-
-		self.sk = ecdsa.SigningKey.from_string(signKey, curve = ecdsa.SECP256k1)
+		x = QrCodes.qr_scan()
+		self.sk = dbq.getprivateKey(int(x))
 		
 
 	
@@ -111,7 +102,7 @@ class Voter:
 			raise Exception("NoBalance")
 			return None
 		else:
-			t1 = trans.Transaction(self,party)
+			t1 = Tx.Transaction(self,party)
 			t1.signTransaction()
 			is_proc = t1.processTransaction()
 			if is_proc:
@@ -121,6 +112,11 @@ class Voter:
 			else:
 				print("Sorry! Your vote could not be processed!")
 				return None
+
+	
+	def __del__(self):
+		dbq.deleteData(self.name,self.dob,self.voterID)
+		print("This account is now deleted!")
 
 
 	def __repr__(self):
@@ -142,23 +138,22 @@ if __name__=="__main__":
 	v3 = Voter("Alex Scott","2018-11-24",dbq.getpublicKey("Alex Scott","2018-11-24"))
 	v4 = Voter("Isaac Carty","2018-11-23",dbq.getpublicKey("Isaac Carty","2018-11-23"))
 
+	voterList = [v1,v2,v3,v4]
+	transactionList = []
+
 	bjp = Party(103,"BJP")
 	inc = Party(101,"INC")
 
-	tr1 = Tx.Transaction(v1,bjp)
-	tr2 = Tx.Transaction(v2,inc)
-	tr3 = Tx.Transaction(v3,inc)
-	tr4 = Tx.Transaction(v4,inc)
+	for i in range(len(voterList)):
+		print("Please Show your QR Code...")
+		voterList[i].sk_QRCode()
+		transactionList.append(voterList[i].castVote(bjp))
+
 	
-	txQueue = []
-	txQueue.append(tr1)
-	txQueue.append(tr2)
-	b1 = Block.Block(txQueue)					
 	
-	txQueue2 = []
-	txQueue2.append(tr3)
-	txQueue2.append(tr4)
-	b2 = Block.Block(txQueue2)
+	b1 = Block.Block(transactionList[0:2])					
+	
+	b2 = Block.Block(transactionList[2:4])
 	
 	session1.addBlock(b1)				#calls link which sets prevhash and mines the block 
 	session1.addBlock(b2)
@@ -167,5 +162,8 @@ if __name__=="__main__":
 	
 	print("\n\nBJP GOT "+ str(bjp.countVotes(session1))+" VOTES!\n\n")
 	print("\n\nINC GOT "+ str(inc.countVotes(session1)) +" VOTES!\n\n")
+
+	
+
 
 

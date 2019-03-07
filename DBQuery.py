@@ -97,7 +97,11 @@ def deleteData(name,dob,v_id):
 	dob=dt.date(int(a),int(b),int(d))
 		
 	try:
+		c.execute('SELECT rowid FROM verify WHERE name=? AND dob=?',(name,dob,))
+		row=c.fetchone()
+
 		c.execute('DELETE FROM verify WHERE name=? AND dob=?',(name,dob,))
+		c.execute('DELETE FROM secretKey WHERE rowid=?',(row[0],))
 		conn.commit()
 		conn.close()
 	except(RuntimeError,NameError,TypeError):
@@ -111,16 +115,4 @@ def deleteData(name,dob,v_id):
 
 if __name__ == '__main__':
 
-	x=qr.qr_scan()
-	print(type(x))
-	x=int(x)
-	print(type(x))
-	sk=getprivateKey(x)
-	#print(sk)
-	pk=getpublicKey("Nicole Okeeffe","2018-11-26")
-	#print(pk)
-	data="Rajiv chomu hai"
-	sig=util.applySignature(sk,data)
-	print(util.verifySignature(pk,data,sig))
-
-	#print(verify("Shannon Reyes","2018-11-15","101"))
+	deleteData("Gail Branam","2018-11-26",101)
