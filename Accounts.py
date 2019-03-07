@@ -4,12 +4,14 @@
 #
 
 import Utility as util
-import Transaction as trans
+import Transaction as Tx
 import DBCreate as dbc
 import DBQuery as dbq
 import QrCodes 
 import ecdsa
-
+import Blockchain as Bch
+import Block
+import TransactionOutput
 
 
 class Party:
@@ -26,8 +28,19 @@ class Party:
 
 
 
-	def countVotes(self):
-		pass
+	def countVotes(self,session):
+		count = 0
+		isvalid = session.validate()
+		if isvalid:
+			for i in range(1,len(session.blockchain)):								
+				for j in range(len(session.blockchain[i].tx)):					
+					if session.blockchain[i].tx[j].txoutput.isMine(self.pk):		#check if the vote is yours
+						count += 1													#if yes, add one to count
+		else:
+			print("[ERROR] : Blockchain tampered!")		
+		isvalid = session.validate()
+		return count
+
 
 
 class Reaper:
@@ -75,10 +88,19 @@ class Voter:
 	def sk_QRCode(self):
 		#Parsing value of self.sk(secret key) from QR Code
 		#NOTE: value should be a string of the key itself as all further signing and verifying funtions uses from_string() function 
+		#signKey is <bytes>
+		signKey = QrCodes.qr_scan()
+		#strSK is <string> 
+		strSK = signKey.decode().replace("\\",'\'')
+		signKey = strSK.encode()
+
+		print(type(signKey))
+		print(len(signKey))
 		
-		#signKey = QrCodes.qr_scan().encode('utf-8')
-		signKey = b'\xad\xd1\xdb\xe86\x07\xc4\x1b\x18\x9b\xaa\x98\x85v|U\xf8\xfa\xad \x11\xeb\x8a\x1f\x1d/\x13\xf5\xe86\xb1\xed'
-		
+		_signKey = b'\xad\xd1\xdb\xe86\x07\xc4\x1b\x18\x9b\xaa\x98\x85v|U\xf8\xfa\xad \x11\xeb\x8a\x1f\x1d/\x13\xf5\xe86\xb1\xed'
+		print(_signKey)
+		print(signKey)
+
 		self.sk = ecdsa.SigningKey.from_string(signKey, curve = ecdsa.SECP256k1)
 		
 
@@ -112,32 +134,38 @@ class Voter:
 
 if __name__=="__main__":
 
-	vt=dbc.create_Accounts()           #creation of accounts of all voters from DB
-	n=input("Enter your full name ")
-	d=input("Enter your DoB in yyyy-mm-dd format ")
-	[boolean,obj]=Voter.verifyaccount(None,vt,n,d)
-	if(boolean and obj.verifyDB() == True):
-		#code for further transaction of voter if it exists, until destructor of object called
-		obj.sk_QRCode()
-		print("Beginning TX Procedure!")
-		bjp = Party(101,"BJP")
-		tx1 = obj.castVote(bjp)
-		if(tx1 != None):
-			print(tx1.txoutput)
-			#call destructor to the account object here
 
-	else:
-		print("Voter not found in Accounts")
-		              
+	session1 = Bch.Blockchain(4)
+
+	v1 = Voter("Polly Robertson","2018-11-12",dbq.getpublicKey("Polly Robertson","2018-11-12"))
+	v2 = Voter("Shannon Reyes","2018-11-15",dbq.getpublicKey("Shannon Reyes","2018-11-15"))
+	v3 = Voter("Elizabeth Nunnenkamp","2018-11-14",dbq.getpublicKey("Elizabeth Nunnenkamp","2018-11-14"))
+	v4 = Voter("Jerry Hunter","2018-11-13",dbq.getpublicKey("Jerry Hunter","2018-11-13"))
+
+	bjp = Party(103,"BJP")
+	inc = Party(101,"INC")
+
+	tr1 = Tx.Transaction(v1,bjp)
+	tr2 = Tx.Transaction(v2,inc)
+	tr3 = Tx.Transaction(v3,inc)
+	tr4 = Tx.Transaction(v4,inc)
 	
-
-'''
-	v1 = Voter(6969,"Akhil Singh","12-12-2012")
-	p1 = Party(101,"BJP")
-	v1.castVote(p1)
-	print(v1)'''
-
-
-
+	txQueue = []
+	txQueue.append(tr1)
+	txQueue.append(tr2)
+	b1 = Block.Block(txQueue)					
+	
+	txQueue2 = []
+	txQueue2.append(tr3)
+	txQueue2.append(tr4)
+	b2 = Block.Block(txQueue2)
+	
+	session1.addBlock(b1)				#calls link which sets prevhash and mines the block 
+	session1.addBlock(b2)
+	
+	#session1.blockchain[1].tx[1].txoutput.receptor = bjp 			#trying to tamper the data
+	
+	print("BJP GOT "+ str(bjp.countVotes(session1))+" VOTES!")
+	print("INC GOT "+ str(inc.countVotes(session1)) +" VOTES!")
 
 
