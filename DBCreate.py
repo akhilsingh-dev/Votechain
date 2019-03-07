@@ -7,6 +7,7 @@ import names
 from sqlite3 import Error
 import Accounts as acc
 import Utility as util
+import QRcodeGen as qrg
 
 
 admin = "admin" 
@@ -20,7 +21,6 @@ def create_Accounts():              #creation of list of objects of all account 
         row=c.fetchone()
         VoterList.append(acc.Voter(row[1],str(row[2]),row[3]))
     return VoterList
-
 
 def new_entry(c,conn):
     
@@ -40,7 +40,10 @@ def new_entry(c,conn):
             for item in l:
                 f.write("%s\n" % item)
         hashed=hashlib.sha256(salt.encode() + str(v_id).encode()).hexdigest() + ':' + salt      #name,dob,hashed(v_id),publickey stored in DB
-        c.execute('INSERT INTO verify(id,name,dob,public_key) VALUES(?,?,?,?)',(hashed,name,dob,pk.to_string(),)) 
+        c.execute('INSERT INTO verify(id,name,dob,public_key) VALUES(?,?,?,?)',(hashed,name,dob,pk.to_string(),))
+        c.execute('INSERT INTO secretKey(private_key) VALUES(?)',(sk.to_string(),))
+        qrg.qr_gen(str(v_id),str(v_id-100))
+
         
     f.close()
     conn.commit()

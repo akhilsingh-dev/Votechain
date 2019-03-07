@@ -58,7 +58,7 @@ def qr_scan():
 	print("[INFO] cleaning up...")
 	cv2.destroyAllWindows()
 	vs.stop()
-	print(type(barcode.data))
+	#print(type(barcode.data))
 	return barcode.data								#This is the bytes object stroing the secretKey
 
 if __name__ == "__main__":

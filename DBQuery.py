@@ -9,7 +9,7 @@ import sqlite3
 from sqlite3 import Error
 import os
 import Utility as util
-
+import QrCodes as qr
 
 
 def create_connection():
@@ -21,6 +21,22 @@ def create_connection():
         return
     finally:
         return conn
+
+def getprivateKey(rowid):
+	conn=create_connection()
+	c=conn.cursor()
+	try:
+		c.execute('SELECT * FROM secretKey WHERE rowid=?',(rowid,))
+		row=c.fetchone()
+		dx=row[0]
+		conn.commit()
+		conn.close()
+		return dx
+	except (RuntimeError,NameError,TypeError):
+		conn.commit()
+		conn.close()
+		print("Private key missing!")
+		return None
 
 def getpublicKey(name,dob):
 	conn=create_connection()
@@ -93,6 +109,18 @@ def deleteData(name,dob,v_id):
 
 ##TESTING...
 
-#if __name__ == '__main__':
+if __name__ == '__main__':
+
+	x=qr.qr_scan()
+	print(type(x))
+	x=int(x)
+	print(type(x))
+	sk=getprivateKey(x)
+	#print(sk)
+	pk=getpublicKey("Nicole Okeeffe","2018-11-26")
+	#print(pk)
+	data="Rajiv chomu hai"
+	sig=util.applySignature(sk,data)
+	print(util.verifySignature(pk,data,sig))
 
 	#print(verify("Shannon Reyes","2018-11-15","101"))

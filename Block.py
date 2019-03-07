@@ -42,9 +42,9 @@ class Block:
 
 
 if __name__ == "__main__":
-	v1 = ac.Voter("Polly Robertson","2018-11-12",dbq.getpublicKey("Polly Robertson","2018-11-12"))
+	v1 = ac.Voter("Nicole Okeeffe","2018-11-26",dbq.getpublicKey("Nicole Okeeffe","2018-11-26"))
 	p1 = ac.Party(103,"BJP")
-	v2 = ac.Voter("Shannon Reyes","2018-11-15",dbq.getpublicKey("Shannon Reyes","2018-11-15"))
+	v2 = ac.Voter("Kenneth Alvarado","2018-11-25",dbq.getpublicKey("Kenneth Alvarado","2018-11-25"))
 	p2 = ac.Party(101,"INC")
 	tr1 = Tx.Transaction(v1,p1)
 	tr2 = Tx.Transaction(v2,p1)
