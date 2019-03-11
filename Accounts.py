@@ -65,6 +65,28 @@ class Voter:
 		self.dob = dat
 		self.balance = True
 
+	def verifyaccount(self,vt,name,dob):           #verifying voter from voterlist
+		present=0
+		for i in vt:
+			flag1=(i.name==name)
+			flag2=(i.dob==dob)
+			if((flag1 and flag2)==True):
+				present=1
+				return [(flag1 and flag2),i]
+			else:
+				continue                          #continues till voter not found in VoterList
+		if(present==0):
+			return [False,None]
+
+	def verifyDB(self):                               #verifying from database and assigning value of self.voterID post verification
+		vid=int(input("Enter your voter-id "))
+		if(dbq.verify(self.name,self.dob,vid)):
+			self.voterID=vid
+			return True
+		else:
+			print("Record not found in DB!")
+			return False
+
 
 	def sk_QRCode(self):
 		#Parsing value of self.sk(secret key) from QR Code
@@ -92,9 +114,9 @@ class Voter:
 				return None
 
 	
-	#def __del__(self):
-	#	dbq.deleteData(self.name,self.dob,self.voterID)
-	#	print("This account is now deleted!")
+	def __del__(self):
+		dbq.deleteData(self.name,self.dob,self.voterID)
+		print("This account is now deleted!")
 
 
 	def __repr__(self):

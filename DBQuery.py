@@ -10,7 +10,7 @@ from sqlite3 import Error
 import os
 import Utility as util
 import QrCodes as qr
-import Accounts as ac
+
 
 def create_connection():
     """ create a database connection to a SQLite database """
@@ -55,30 +55,6 @@ def getpublicKey(name,dob):
 		conn.close()
 		print("Public key missing!")
 		return None
-
-def verifyaccount(vt,name,dob):           #verifying voter from voterlist
-	present=0
-	for i in vt:
-		flag1=(i.name==name)
-		flag2=(i.dob==dob)
-		if((flag1 and flag2)==True):
-			present=1
-			return [(flag1 and flag2),i]
-		else:
-			continue                          		#continues till voter not found in VoterList
-	if(present==0):
-		return [False,None]
-
-
-def verifyDB(voter):                               #verifying from database and assigning value of self.voterID post verification
-	vid=int(input("Enter your voter-id "))
-	if(verify(voter.name,voter.dob,vid)):
-		voter.voterID = vid
-		return True
-	else:
-		print("Record not found in DB!")
-		return False
-
 
 
 def verify(name,dob,v_id):         #The case of multiple same names and DOBs also handled via v_id now

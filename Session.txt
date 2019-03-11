@@ -13,8 +13,8 @@
 		#transaction validated	
 		#Destroy the account and the database
 
-		#get 2 such transactions ready
-		#Add 2 transactions to block
+		#get 4 such transactions ready
+		#Add 4 transactions to block
 		#mine and validate the block
 		#Add block to blockchain
 		#blockchain verification
