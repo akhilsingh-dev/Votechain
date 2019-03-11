@@ -13,7 +13,7 @@ class Transaction:
 	txcount = 0
 
 	def __init__(self,giver,taker):		#output is of type TxOutputs
-		self.value = 1
+		#self.value = 1
 		self.sender = giver						#objects of one of classes in Accounts.py
 		self.recept = taker						#objects of one of classes in Accounts.py
 		self.txid = self.calcID()
