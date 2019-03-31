@@ -57,7 +57,17 @@ class Ui_MainWindow(object):
         self.DOB_e.setObjectName("DOB_e")
 
 
-       
+        #self.Scan_b = QtWidgets.QPushButton(self.FullFrame)
+        #self.Scan_b.setGeometry(QtCore.QRect(300, 430, 171, 31))
+        #self.Scan_b.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:1 rgba(255, 255, 255, 255));")
+        #self.Scan_b.setObjectName("Scan_b")
+
+        self.Scan_b = QtWidgets.QPushButton(self.FullFrame)
+        self.Scan_b.setGeometry(QtCore.QRect(300, 430, 171, 31))
+        self.Scan_b.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:1 rgba(255, 255, 255, 255));")
+        self.Scan_b.setObjectName("Scan_b")
+
+
         self.ID_l = QtWidgets.QLabel(self.FullFrame)
         self.ID_l.setGeometry(QtCore.QRect(280, 310, 201, 31))
         self.ID_l.setStyleSheet("")
@@ -104,6 +114,10 @@ class Ui_MainWindow(object):
         self.DOB_l.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Enter your Date of Birth :</span></p></body></html>"))
         
         #self.Scan_b.setText(_translate("MainWindow", "Scan Private key "))
+        #self.Scan_b.setText(_translate("MainWindow", "Scan Private key "))
+
+        self.Scan_b.setText(_translate("MainWindow", "Scan Private key "))
+
         self.ID_l.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Enter your Voter ID :</span></p></body></html>"))
         self.Submit_b.setText(_translate("MainWindow", "Give Vote!"))
 

@@ -9,7 +9,10 @@ import Block
 import threading
 import sys 
 
+
+
 x=40
+
 
 print("THIS SESSION WILL BE OF",x,"MINUTES")
 
