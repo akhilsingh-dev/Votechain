@@ -54,10 +54,10 @@ class Blockchain:
 				return False
 
 			##FOLLOWING LINES ARE TO BE INCLUDED AFTER DESIGNING SIGNING LOGIC...
-			#for transac in currblock.tx:
-			#	if not transac.is_proc:
-			#		print("Transaction not processed")
-			#		return False
+			for transac in currblock.tx:
+				if not transac.is_proc:
+					print("Transaction not processed")
+					return False
 
 		print("\n\n[INFO] : Blockchain is Valid!\n\n")
 		return True

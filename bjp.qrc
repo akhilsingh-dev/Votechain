@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="img">
+    <file>../bjplogo.jpg</file>
+    <file>bjplogo.jpg</file>
+    <file>inclogo.png</file>
+    <file>../inclogo.png</file>
+    <file>../bjplogo.jpg</file>
+  </qresource>
+</RCC>
