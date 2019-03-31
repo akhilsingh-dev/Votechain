@@ -67,24 +67,6 @@ class Ui_Dialog(object):
         self.label_2.show()
 
 
-        
-        '''self.label = QtWidgets.QLabel(Dialog)
-
-        self.label = QtWidgets.QLabel(Dialog)
-
-        self.label.setGeometry(QtCore.QRect(20, 10, 331, 281))
-        self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap(":/img/bjplogo.jpg"))
-        self.label.setScaledContents(True)
-        self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(Dialog)
-        self.label_2.setGeometry(QtCore.QRect(420, 10, 351, 281))
-        self.label_2.setText("")
-        self.label_2.setPixmap(QtGui.QPixmap(":/img/inclogo.png"))
-        self.label_2.setScaledContents(True)
-
-        self.label_2.setObjectName("label_2")'''
-
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
     def button1_pressed(self):
@@ -97,10 +79,6 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "selection"))
         self.kek_b.setText(_translate("Dialog", "Bhartiya Janata Party"))
         self.Simp_b.setText(_translate("Dialog", "Indian National Congress"))
-
-#import bjp_rc
-#import images1_rc
-#import images_rc
 
 
 
