@@ -9,6 +9,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import os
 import atexit
+
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel
 from PyQt5.QtGui import QIcon, QPixmap
  
@@ -24,6 +25,11 @@ class Ui_Dialog(object):
          
      
          
+
+
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+
         Dialog.setObjectName("Dialog")
         Dialog.resize(801, 536)
         Dialog.setStyleSheet("background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:1, stop:0 rgba(85, 170, 255, 255), stop:1 rgba(255, 255, 255, 255));")
@@ -32,12 +38,15 @@ class Ui_Dialog(object):
         self.kek_b.setStyleSheet("background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:1, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(255, 255, 255, 255));\n"
 "font: 75 14pt \"MS Shell Dlg 2\";")
         self.kek_b.setObjectName("kek_b")
+
         self.kek_b.clicked.connect(self.button1_pressed)
+
         self.Simp_b = QtWidgets.QPushButton(Dialog)
         self.Simp_b.setGeometry(QtCore.QRect(430, 300, 341, 211))
         self.Simp_b.setStyleSheet("font: 75 14pt \"MS Shell Dlg 2\";\n"
 "background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:1, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(255, 255, 255, 255));")
         self.Simp_b.setObjectName("Simp_b")
+
         self.Simp_b.clicked.connect(self.button2_pressed)
 
            # Create widget
@@ -60,6 +69,9 @@ class Ui_Dialog(object):
 
         
         '''self.label = QtWidgets.QLabel(Dialog)
+
+        self.label = QtWidgets.QLabel(Dialog)
+
         self.label.setGeometry(QtCore.QRect(20, 10, 331, 281))
         self.label.setText("")
         self.label.setPixmap(QtGui.QPixmap(":/img/bjplogo.jpg"))
@@ -70,6 +82,7 @@ class Ui_Dialog(object):
         self.label_2.setText("")
         self.label_2.setPixmap(QtGui.QPixmap(":/img/inclogo.png"))
         self.label_2.setScaledContents(True)
+
         self.label_2.setObjectName("label_2")'''
 
         self.retranslateUi(Dialog)
@@ -88,6 +101,8 @@ class Ui_Dialog(object):
 #import bjp_rc
 #import images1_rc
 #import images_rc
+
+
 
 def main():
     import sys

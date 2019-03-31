@@ -9,7 +9,11 @@ import Block
 import threading
 import sys 
 
-x=1.0
+
+
+x=40
+
+
 print("THIS SESSION WILL BE OF",x,"MINUTES")
 
 VoterList=dbc.create_Accounts()

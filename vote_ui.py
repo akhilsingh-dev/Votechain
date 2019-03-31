@@ -43,10 +43,17 @@ class Ui_MainWindow(object):
         self.DOB_e.setGeometry(QtCore.QRect(280, 260, 201, 22))
         self.DOB_e.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:1 rgba(255, 255, 255, 255));")
         self.DOB_e.setObjectName("DOB_e")
+
         #self.Scan_b = QtWidgets.QPushButton(self.FullFrame)
         #self.Scan_b.setGeometry(QtCore.QRect(300, 430, 171, 31))
         #self.Scan_b.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:1 rgba(255, 255, 255, 255));")
         #self.Scan_b.setObjectName("Scan_b")
+
+        self.Scan_b = QtWidgets.QPushButton(self.FullFrame)
+        self.Scan_b.setGeometry(QtCore.QRect(300, 430, 171, 31))
+        self.Scan_b.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:1 rgba(255, 255, 255, 255));")
+        self.Scan_b.setObjectName("Scan_b")
+
         self.ID_l = QtWidgets.QLabel(self.FullFrame)
         self.ID_l.setGeometry(QtCore.QRect(280, 310, 201, 31))
         self.ID_l.setStyleSheet("")
@@ -81,7 +88,11 @@ class Ui_MainWindow(object):
 "<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8.25pt;\"><br /></p></body></html>"))
         self.Name_l.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600; color:#000000;\">Enter your Name :</span></p></body></html>"))
         self.DOB_l.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Enter your Date of Birth :</span></p></body></html>"))
+
         #self.Scan_b.setText(_translate("MainWindow", "Scan Private key "))
+
+        self.Scan_b.setText(_translate("MainWindow", "Scan Private key "))
+
         self.ID_l.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Enter your Voter ID :</span></p></body></html>"))
         self.Submit_b.setText(_translate("MainWindow", "Give Vote!"))
         self.label.setText(_translate("MainWindow", "Time to be inserted "))
