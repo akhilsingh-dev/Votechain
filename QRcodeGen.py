@@ -17,4 +17,4 @@ def qr_gen(file_name="temp", data="abc"):                                       
 
 
 #Function Calling Example
-#qr_gen("File Name","Private_Key")
+#qr_gen("File name","data")

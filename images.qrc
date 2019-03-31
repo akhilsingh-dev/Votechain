@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="kekistan">
+    <file>../kekistan flag.jpg</file>
+  </qresource>
+</RCC>
