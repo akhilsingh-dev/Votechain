@@ -2,7 +2,7 @@ import sys
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 
-DURATION_INT = 20
+DURATION_INT = 60
 
 
 class MyMainWindow(QtWidgets.QMainWindow):

@@ -11,7 +11,7 @@ import os
 import atexit
 import timer
 #import session
-#import DBQuery as dbq
+import DBQuery as dbq
 
 
 
@@ -55,18 +55,7 @@ class Ui_MainWindow(object):
         self.DOB_e.setGeometry(QtCore.QRect(280, 260, 201, 22))
         self.DOB_e.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:1 rgba(255, 255, 255, 255));")
         self.DOB_e.setObjectName("DOB_e")
-
-
-        #self.Scan_b = QtWidgets.QPushButton(self.FullFrame)
-        #self.Scan_b.setGeometry(QtCore.QRect(300, 430, 171, 31))
-        #self.Scan_b.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:1 rgba(255, 255, 255, 255));")
-        #self.Scan_b.setObjectName("Scan_b")
-
-        self.Scan_b = QtWidgets.QPushButton(self.FullFrame)
-        self.Scan_b.setGeometry(QtCore.QRect(300, 430, 171, 31))
-        self.Scan_b.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:1 rgba(255, 255, 255, 255));")
-        self.Scan_b.setObjectName("Scan_b")
-
+                
 
         self.ID_l = QtWidgets.QLabel(self.FullFrame)
         self.ID_l.setGeometry(QtCore.QRect(280, 310, 201, 31))
@@ -79,14 +68,12 @@ class Ui_MainWindow(object):
         self.ID_e.setObjectName("ID_e")
         
 
-        str1="HI!!!"
-        self.Submit_b = QtWidgets.QPushButton(str1,self.FullFrame)
+        self.Submit_b = QtWidgets.QPushButton(self.FullFrame)
         self.Submit_b.setGeometry(QtCore.QRect(310, 500, 151, 41))
         self.Submit_b.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 255, 255, 255));")
         self.Submit_b.setAutoRepeatInterval(100)
         self.Submit_b.setObjectName("Submit_b")
-        
-        self.Submit_b.clicked.connect(self.clickMethod)
+        self.Submit_b.clicked.connect(self.finalizeQuery)
         
 
 
@@ -113,18 +100,21 @@ class Ui_MainWindow(object):
         self.Name_l.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600; color:#000000;\">Enter your Name :</span></p></body></html>"))
         self.DOB_l.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Enter your Date of Birth :</span></p></body></html>"))
         
-        #self.Scan_b.setText(_translate("MainWindow", "Scan Private key "))
-        #self.Scan_b.setText(_translate("MainWindow", "Scan Private key "))
-
-        self.Scan_b.setText(_translate("MainWindow", "Scan Private key "))
-
+        
         self.ID_l.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Enter your Voter ID :</span></p></body></html>"))
         self.Submit_b.setText(_translate("MainWindow", "Give Vote!"))
 
-    def clickMethod(self,str):
-    	print("HIII!!!!")
-    
-
+    def finalizeQuery(self):
+        parsedName = self.Name_e.toPlainText()
+        parsedVID = self.ID_e.toPlainText()
+        pDate = self.DOB_e.date()
+        parsedDate = pDate.toPyDate()
+        self.Name_e.clear()
+        self.ID_e.clear()
+        self.DOB_e.clear()
+        print(dbq.verify(parsedName,parsedDate,parsedVID))
+        
+        
 
 
 
