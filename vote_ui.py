@@ -112,8 +112,10 @@ class Ui_MainWindow(object):
         self.Name_e.clear()
         self.ID_e.clear()
         self.DOB_e.clear()
-        print(dbq.verify(parsedName,parsedDate,parsedVID))
-        
+        with open('test.txt','w') as f:
+            f.write(parsedName + "\t" + str(parsedDate) + "\t" + parsedVID)     #CANT RETURN OBJECTS SO PARSING IT TO A TEMP FILE
+
+        #print(dbq.verify(parsedName,parsedDate,parsedVID))
         
 
 

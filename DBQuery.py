@@ -85,8 +85,8 @@ def verify(name,dob,v_id):         #The case of multiple same names and DOBs als
 	conn=create_connection()
 	c=conn.cursor()
 
-	#a,b,d=dob.split('-')					#UNCOMMENT IF RUNNING IN CONSOLE MODE!
-	#dob=dt.date(int(a),int(b),int(d))		#UNCOMMENT IF RUNNING IN CONSOLE MODE!
+	a,b,d=dob.split('-')					#UNCOMMENT IF RUNNING IN CONSOLE MODE!
+	dob=dt.date(int(a),int(b),int(d))		#UNCOMMENT IF RUNNING IN CONSOLE MODE!
 	try:
 		c.execute('SELECT * FROM verify WHERE name=? AND dob=?',(name,dob,))
 		row=c.fetchall()
